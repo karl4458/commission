@@ -2,15 +2,27 @@
   <head>
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   </head>
   <body>
     <video id="player" controls>
-      <source id="video-source" type="video/mp4" />
+      <source id="video-source" type="application/x-mpegURL" />
     </video>
     <script>
       const urlParams = new URLSearchParams(window.location.search);
       const videoSrc = urlParams.get('source');
       document.getElementById('video-source').src = videoSrc;
+      if (Hls.isSupported()) {
+        const video = document.getElementById('player');
+        const hls = new Hls();
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+        const player = new Plyr('#player');
+      } else if (video.canPlayType('application/x-mpegURL')) {
+        const player = new Plyr('#player');
+      } else {
+        console.error('HLS not supported');
+      }
       const player = new Plyr('#player');
     </script>
   </body>
