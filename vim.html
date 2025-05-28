@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+</head>
+<body>
+    <div id="player" data-plyr-provider="vimeo" data-plyr-embed-id=""></div>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const vimeoSrc = urlParams.get('src').split('/').pop(); // Vimeo ID 추출
+        document.getElementById('player').setAttribute('data-plyr-embed-id', vimeoSrc);
+        const player = new Plyr('#player');
+    </script>
+</body>
+</html>
