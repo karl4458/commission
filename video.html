@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  </head>
+  <head> </head>
   <body>
-<script>
-  // 현재 페이지의 URL을 기준으로 자신의 <object> 태그 찾기
-  const currentUrl = window.location.href;
-  const selfObject = Array.from(parent.document.querySelectorAll('object')).find(
-    obj => obj.getAttribute('data') === currentUrl
-  );
-  if (selfObject) {
-    const iframeElement = parent.document.createElement('iframe');
-    Array.from(selfObject.attributes).forEach(attr => {
-          if (attr.name === 'data') {
-            iframeElement.setAttribute('src', attr.value); // data 속성은 src로 변환
-          } else {
-            iframeElement.setAttribute(attr.name, attr.value); // 나머지 속성은 그대로 복사
-          }
-        });
-    selfObject.parentNode.replaceChild(iframeElement, selfObject);
-  }
-</script>
+    <script>
+      // 현재 페이지의 URL을 기준으로 자신의 <object> 태그 찾기
+      const currentUrl = window.location.href.replace(window.location.origin,'');
+      const selfObject = Array.from(parent.document.querySelectorAll('object')).find(
+        obj => obj.getAttribute('data') === currentUrl
+      );
+      if (selfObject) {
+        const iframeElement = parent.document.createElement('iframe');
+        Array.from(selfObject.attributes).forEach(attr => {
+              if (attr.name === 'data') {
+                iframeElement.setAttribute('src', 'https://'+ window.location.search.slice(1)); // data 속성은 src로 변환
+              } else {
+                iframeElement.setAttribute(attr.name, attr.value); // 나머지 속성은 그대로 복사
+              }
+            });
+        selfObject.parentNode.replaceChild(iframeElement, selfObject);
+      }
+    </script>
   </body>
 </html>
